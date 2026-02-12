@@ -63,6 +63,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
+    "tailwind-merge": "^3.0.2",
     "tailwindcss": "4.1.18",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3"
