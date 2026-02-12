@@ -1,0 +1,79 @@
+{
+  "name": "tailwind-super-corners",
+  "version": "0.1.1",
+  "description": "Tailwind CSS v4 plugin for concentric border-radius, outer corners, and corner shapes (squircle, superellipse, bevel, etc.)",
+  "sideEffects": false,
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.css",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "style": "./dist/index.css",
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "default": "./dist/index.css"
+    },
+    "./tw-merge": {
+      "types": "./dist/tw-merge.d.ts",
+      "import": "./dist/tw-merge.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup && bun run scripts/copy-css.ts",
+    "lint": "biome check .",
+    "prepublishOnly": "bun run build"
+  },
+  "keywords": [
+    "tailwind",
+    "tailwindcss",
+    "tailwind-plugin",
+    "rounded",
+    "border-radius",
+    "concentric",
+    "squircle",
+    "superellipse",
+    "corner-shape",
+    "outer-corners",
+    "nested",
+    "css"
+  ],
+  "author": {
+    "name": "Matt Silva",
+    "email": "tecoad@gmail.com",
+    "url": "https://github.com/tecoad"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tecoad/tailwind-super-corners.git"
+  },
+  "homepage": "https://github.com/tecoad/tailwind-super-corners#readme",
+  "bugs": {
+    "url": "https://github.com/tecoad/tailwind-super-corners/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "devDependencies": {
+    "tailwindcss": "4.1.18",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3"
+  },
+  "peerDependencies": {
+    "tailwindcss": "^4.0.3",
+    "tailwind-merge": "^3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "tailwind-merge": {
+      "optional": true
+    }
+  }
+}

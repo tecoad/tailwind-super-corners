@@ -1,0 +1,537 @@
+/** biome-ignore-all lint/correctness/noUnknownFunction: <explanation> */
+@theme {
+	--sc-out-radius-base: 1rem;
+	--sc-out-mask: radial-gradient(
+		100% 100% at center,
+		transparent calc(50% - 0.25px),
+		black calc(50% + 0.25px)
+	);
+	--sc-out-mask-size: 200% 200%;
+}
+
+@utility sc-out {
+	--sc-out-radius: var(--sc-out-radius-base);
+
+	&::before,
+	&::after {
+		@apply [background:inherit] bg-inherit mask-[var(--sc-out-mask)] mask-size-[var(--sc-out-mask-size)];
+		@apply content-[""] absolute w-[var(--sc-out-radius)] aspect-1/1 block overflow-hidden pointer-events-none;
+		@apply top-auto bottom-0;
+	}
+
+	&::before {
+		@apply left-[calc(var(--sc-out-radius)*-1)];
+		@apply mask-position-[100%_100%];
+	}
+
+	&::after {
+		@apply right-[calc(var(--sc-out-radius)*-1)];
+		@apply mask-position-[0%_100%];
+	}
+
+	@supports (corner-shape: superellipse(1)) {
+		&::before,
+		&::after {
+			mask-image: none;
+			corner-shape: superellipse(calc(var(--corner-superellipse, 1) * -1));
+		}
+
+		&::before {
+			border-top-left-radius: 100%;
+		}
+
+		&::after {
+			border-top-right-radius: 100%;
+		}
+	}
+}
+
+@utility sc-out-* {
+	--sc-out-radius: --value([length]);
+	--sc-out-radius: --value(--radius-*);
+
+	&::before,
+	&::after {
+		@apply [background:inherit] bg-inherit mask-[var(--sc-out-mask)] mask-size-[var(--sc-out-mask-size)];
+		@apply content-[""] absolute w-[var(--sc-out-radius)] aspect-1/1 block overflow-hidden pointer-events-none;
+		@apply top-auto bottom-0;
+	}
+
+	&::before {
+		@apply left-[calc(var(--sc-out-radius)*-1)];
+		@apply mask-position-[100%_100%];
+	}
+
+	&::after {
+		@apply right-[calc(var(--sc-out-radius)*-1)];
+		@apply mask-position-[0%_100%];
+	}
+
+	@supports (corner-shape: superellipse(1)) {
+		&::before,
+		&::after {
+			mask-image: none;
+			corner-shape: superellipse(calc(var(--corner-superellipse, 1) * -1));
+		}
+
+		&::before {
+			border-top-left-radius: 100%;
+		}
+
+		&::after {
+			border-top-right-radius: 100%;
+		}
+	}
+}
+
+@utility sc-out-b {
+	--sc-out-radius-b: var(--sc-out-radius-base);
+
+	&::before,
+	&::after {
+		@apply [background:inherit] bg-inherit mask-[var(--sc-out-mask)] mask-size-[var(--sc-out-mask-size)];
+		@apply content-[""] absolute w-[var(--sc-out-radius-b)] aspect-1/1 block overflow-hidden pointer-events-none;
+		@apply top-auto bottom-0;
+	}
+
+	&::before {
+		@apply left-[calc(var(--sc-out-radius-b)*-1)];
+		@apply mask-position-[100%_100%];
+	}
+
+	&::after {
+		@apply right-[calc(var(--sc-out-radius-b)*-1)];
+		@apply mask-position-[0%_100%];
+	}
+
+	@supports (corner-shape: superellipse(1)) {
+		&::before,
+		&::after {
+			mask-image: none;
+			corner-shape: superellipse(calc(var(--corner-superellipse, 1) * -1));
+		}
+
+		&::before {
+			border-top-left-radius: 100%;
+		}
+
+		&::after {
+			border-top-right-radius: 100%;
+		}
+	}
+}
+
+@utility sc-out-b-* {
+	--sc-out-radius-b: --value([length]);
+	--sc-out-radius-b: --value(--radius-*);
+
+	&::before,
+	&::after {
+		@apply [background:inherit] bg-inherit mask-[var(--sc-out-mask)] mask-size-[var(--sc-out-mask-size)];
+		@apply content-[""] absolute w-[var(--sc-out-radius-b)] aspect-1/1 block overflow-hidden pointer-events-none;
+		@apply top-auto bottom-0;
+	}
+
+	&::before {
+		@apply left-[calc(var(--sc-out-radius-b)*-1)];
+		@apply mask-position-[100%_100%];
+	}
+
+	&::after {
+		@apply right-[calc(var(--sc-out-radius-b)*-1)];
+		@apply mask-position-[0%_100%];
+	}
+
+	@supports (corner-shape: superellipse(1)) {
+		&::before,
+		&::after {
+			mask-image: none;
+			corner-shape: superellipse(calc(var(--corner-superellipse, 1) * -1));
+		}
+
+		&::before {
+			border-top-left-radius: 100%;
+		}
+
+		&::after {
+			border-top-right-radius: 100%;
+		}
+	}
+}
+
+@utility sc-out-bl {
+	--sc-out-radius-bl: var(--sc-out-radius-base);
+
+	&::before {
+		@apply [background:inherit] bg-inherit mask-[var(--sc-out-mask)] mask-size-[var(--sc-out-mask-size)];
+		@apply content-[""] absolute w-[var(--sc-out-radius-bl)] aspect-1/1 block overflow-hidden pointer-events-none;
+		@apply top-auto bottom-0;
+	}
+
+	&::before {
+		@apply left-[calc(var(--sc-out-radius-bl)*-1)];
+		@apply mask-position-[100%_100%];
+	}
+}
+
+@utility sc-out-bl-* {
+	--sc-out-radius-bl: --value([length]);
+	--sc-out-radius-bl: --value(--radius-*);
+
+	&::before {
+		@apply [background:inherit] bg-inherit mask-[var(--sc-out-mask)] mask-size-[var(--sc-out-mask-size)];
+		@apply content-[""] absolute w-[var(--sc-out-radius-bl)] aspect-1/1 block overflow-hidden pointer-events-none;
+		@apply top-auto bottom-0;
+	}
+
+	&::before {
+		@apply left-[calc(var(--sc-out-radius-bl)*-1)];
+		@apply mask-position-[100%_100%];
+	}
+}
+
+@utility sc-out-br {
+	--sc-out-radius-br: var(--sc-out-radius-base);
+
+	&::after {
+		@apply [background:inherit] bg-inherit mask-[var(--sc-out-mask)] mask-size-[var(--sc-out-mask-size)];
+		@apply content-[""] absolute w-[var(--sc-out-radius-br)] aspect-1/1 block overflow-hidden pointer-events-none;
+		@apply top-auto bottom-0;
+	}
+
+	&::after {
+		@apply right-[calc(var(--sc-out-radius-br)*-1)];
+		@apply mask-position-[0%_100%];
+	}
+}
+
+@utility sc-out-br-* {
+	--sc-out-radius-br: --value([length]);
+	--sc-out-radius-br: --value(--radius-*);
+
+	&::after {
+		@apply [background:inherit] bg-inherit mask-[var(--sc-out-mask)] mask-size-[var(--sc-out-mask-size)];
+		@apply content-[""] absolute w-[var(--sc-out-radius-br)] aspect-1/1 block overflow-hidden pointer-events-none;
+		@apply top-auto bottom-0;
+	}
+
+	&::after {
+		@apply right-[calc(var(--sc-out-radius-br)*-1)];
+		@apply mask-position-[0%_100%];
+	}
+}
+
+@utility sc-out-t {
+	--sc-out-radius-t: var(--sc-out-radius-base);
+
+	&::before,
+	&::after {
+		@apply [background:inherit] bg-inherit mask-[var(--sc-out-mask)] mask-size-[var(--sc-out-mask-size)];
+		@apply content-[""] absolute w-[var(--sc-out-radius-t)] aspect-1/1 block overflow-hidden pointer-events-none;
+		@apply top-0 bottom-auto;
+	}
+
+	&::before {
+		@apply left-[calc(var(--sc-out-radius-t)*-1)];
+		@apply mask-position-[100%_0%];
+	}
+
+	&::after {
+		@apply right-[calc(var(--sc-out-radius-t)*-1)];
+		@apply mask-position-[0%_0%];
+	}
+}
+
+@utility sc-out-t-* {
+	--sc-out-radius-t: --value([length]);
+	--sc-out-radius-t: --value(--radius-*);
+
+	&::before,
+	&::after {
+		@apply [background:inherit] bg-inherit mask-[var(--sc-out-mask)] mask-size-[var(--sc-out-mask-size)];
+		@apply content-[""] absolute w-[var(--sc-out-radius-t)] aspect-1/1 block overflow-hidden pointer-events-none;
+		@apply top-0 bottom-auto;
+	}
+
+	&::before {
+		@apply left-[calc(var(--sc-out-radius-t)*-1)];
+		@apply mask-position-[100%_0%];
+	}
+
+	&::after {
+		@apply right-[calc(var(--sc-out-radius-t)*-1)];
+		@apply mask-position-[0%_0%];
+	}
+}
+
+@utility sc-out-tl {
+	--sc-out-radius-tl: var(--sc-out-radius-base);
+
+	&::before {
+		@apply [background:inherit] bg-inherit mask-[var(--sc-out-mask)] mask-size-[var(--sc-out-mask-size)];
+		@apply content-[""] absolute w-[var(--sc-out-radius-tl)] aspect-1/1 block overflow-hidden pointer-events-none;
+		@apply top-0 bottom-auto;
+	}
+
+	&::before {
+		@apply left-[calc(var(--sc-out-radius-tl)*-1)];
+		@apply mask-position-[100%_0%];
+	}
+}
+
+@utility sc-out-tl-* {
+	--sc-out-radius-tl: --value([length]);
+	--sc-out-radius-tl: --value(--radius-*);
+
+	&::before {
+		@apply [background:inherit] bg-inherit mask-[var(--sc-out-mask)] mask-size-[var(--sc-out-mask-size)];
+		@apply content-[""] absolute w-[var(--sc-out-radius-tl)] aspect-1/1 block overflow-hidden pointer-events-none;
+		@apply top-0 bottom-auto;
+	}
+
+	&::before {
+		@apply left-[calc(var(--sc-out-radius-tl)*-1)];
+		@apply mask-position-[100%_0%];
+	}
+}
+
+@utility sc-out-tr {
+	--sc-out-radius-tr: var(--sc-out-radius-base);
+
+	&::after {
+		@apply [background:inherit] bg-inherit mask-[var(--sc-out-mask)] mask-size-[var(--sc-out-mask-size)];
+		@apply content-[""] absolute w-[var(--sc-out-radius-tr)] aspect-1/1 block overflow-hidden pointer-events-none;
+		@apply top-0 bottom-auto;
+	}
+
+	&::after {
+		@apply right-[calc(var(--sc-out-radius-tr)*-1)];
+		@apply mask-position-[0%_0%];
+	}
+}
+
+@utility sc-out-tr-* {
+	--sc-out-radius-tr: --value([length]);
+	--sc-out-radius-tr: --value(--radius-*);
+
+	&::after {
+		@apply [background:inherit] bg-inherit mask-[var(--sc-out-mask)] mask-size-[var(--sc-out-mask-size)];
+		@apply content-[""] absolute w-[var(--sc-out-radius-tr)] aspect-1/1 block overflow-hidden pointer-events-none;
+		@apply top-0 bottom-auto;
+	}
+
+	&::after {
+		@apply right-[calc(var(--sc-out-radius-tr)*-1)];
+		@apply mask-position-[0%_0%];
+	}
+}
+
+@utility sc-out-l {
+	--sc-out-radius-l: var(--sc-out-radius-base);
+
+	&::before,
+	&::after {
+		@apply [background:inherit] bg-inherit mask-[var(--sc-out-mask)] mask-size-[var(--sc-out-mask-size)];
+		@apply content-[""] absolute w-[var(--sc-out-radius-l)] aspect-1/1 block overflow-hidden pointer-events-none;
+		@apply left-0 right-auto;
+	}
+
+	&::before {
+		@apply top-[calc(var(--sc-out-radius-l)*-1)] bottom-auto;
+		@apply mask-position-[0%_100%];
+	}
+
+	&::after {
+		@apply bottom-[calc(var(--sc-out-radius-l)*-1)] top-auto;
+		@apply mask-position-[0%_0%];
+	}
+}
+
+@utility sc-out-l-* {
+	--sc-out-radius-l: --value([length]);
+	--sc-out-radius-l: --value(--radius-*);
+
+	&::before,
+	&::after {
+		@apply [background:inherit] bg-inherit mask-[var(--sc-out-mask)] mask-size-[var(--sc-out-mask-size)];
+		@apply content-[""] absolute w-[var(--sc-out-radius-l)] aspect-1/1 block overflow-hidden pointer-events-none;
+		@apply left-0 right-auto;
+	}
+
+	&::before {
+		@apply top-[calc(var(--sc-out-radius-l)*-1)] bottom-auto;
+		@apply mask-position-[0%_100%];
+	}
+
+	&::after {
+		@apply bottom-[calc(var(--sc-out-radius-l)*-1)] top-auto;
+		@apply mask-position-[0%_0%];
+	}
+}
+
+@utility sc-out-lt {
+	--sc-out-radius-lt: var(--sc-out-radius-base);
+
+	&::before {
+		@apply [background:inherit] bg-inherit mask-[var(--sc-out-mask)] mask-size-[var(--sc-out-mask-size)];
+		@apply content-[""] absolute w-[var(--sc-out-radius-lt)] aspect-1/1 block overflow-hidden pointer-events-none;
+		@apply left-0 right-auto;
+	}
+
+	&::before {
+		@apply top-[calc(var(--sc-out-radius-lt)*-1)];
+		@apply mask-position-[0%_100%];
+	}
+}
+
+@utility sc-out-lt-* {
+	--sc-out-radius-lt: --value([length]);
+	--sc-out-radius-lt: --value(--radius-*);
+
+	&::before {
+		@apply [background:inherit] bg-inherit mask-[var(--sc-out-mask)] mask-size-[var(--sc-out-mask-size)];
+		@apply content-[""] absolute w-[var(--sc-out-radius-lt)] aspect-1/1 block overflow-hidden pointer-events-none;
+		@apply left-0 right-auto;
+	}
+
+	&::before {
+		@apply top-[calc(var(--sc-out-radius-lt)*-1)];
+		@apply mask-position-[0%_100%];
+	}
+}
+
+@utility sc-out-lb {
+	--sc-out-radius-lb: var(--sc-out-radius-base);
+
+	&::after {
+		@apply [background:inherit] bg-inherit mask-[var(--sc-out-mask)] mask-size-[var(--sc-out-mask-size)];
+		@apply content-[""] absolute w-[var(--sc-out-radius-lb)] aspect-1/1 block overflow-hidden pointer-events-none;
+		@apply left-0 right-auto;
+	}
+
+	&::after {
+		@apply bottom-[calc(var(--sc-out-radius-lb)*-1)];
+		@apply mask-position-[0%_0%];
+	}
+}
+
+@utility sc-out-lb-* {
+	--sc-out-radius-lb: --value([length]);
+	--sc-out-radius-lb: --value(--radius-*);
+
+	&::after {
+		@apply [background:inherit] bg-inherit mask-[var(--sc-out-mask)] mask-size-[var(--sc-out-mask-size)];
+		@apply content-[""] absolute w-[var(--sc-out-radius-lb)] aspect-1/1 block overflow-hidden pointer-events-none;
+		@apply left-0 right-auto;
+	}
+
+	&::after {
+		@apply bottom-[calc(var(--sc-out-radius-lb)*-1)];
+		@apply mask-position-[0%_0%];
+	}
+}
+
+@utility sc-out-r {
+	--sc-out-radius-r: var(--sc-out-radius-base);
+
+	&::before,
+	&::after {
+		@apply [background:inherit] bg-inherit mask-[var(--sc-out-mask)] mask-size-[var(--sc-out-mask-size)];
+		@apply content-[""] absolute w-[var(--sc-out-radius-r)] aspect-1/1 block overflow-hidden pointer-events-none;
+		@apply left-auto right-0;
+	}
+
+	&::before {
+		@apply top-[calc(var(--sc-out-radius-r)*-1)] bottom-auto;
+		@apply mask-position-[100%_100%];
+	}
+
+	&::after {
+		@apply bottom-[calc(var(--sc-out-radius-r)*-1)] top-auto;
+		@apply mask-position-[100%_0%];
+	}
+}
+
+@utility sc-out-r-* {
+	--sc-out-radius-r: --value([length]);
+	--sc-out-radius-r: --value(--radius-*);
+
+	&::before,
+	&::after {
+		@apply [background:inherit] bg-inherit mask-[var(--sc-out-mask)] mask-size-[var(--sc-out-mask-size)];
+		@apply content-[""] absolute w-[var(--sc-out-radius-r)] aspect-1/1 block overflow-hidden pointer-events-none;
+		@apply left-auto right-0;
+	}
+
+	&::before {
+		@apply top-[calc(var(--sc-out-radius-r)*-1)] bottom-auto;
+		@apply mask-position-[100%_100%];
+	}
+
+	&::after {
+		@apply bottom-[calc(var(--sc-out-radius-r)*-1)] top-auto;
+		@apply mask-position-[100%_0%];
+	}
+}
+
+@utility sc-out-rt {
+	--sc-out-radius-rt: var(--sc-out-radius-base);
+
+	&::before {
+		@apply [background:inherit] bg-inherit mask-[var(--sc-out-mask)] mask-size-[var(--sc-out-mask-size)];
+		@apply content-[""] absolute w-[var(--sc-out-radius-rt)] aspect-1/1 block overflow-hidden pointer-events-none;
+		@apply left-auto right-0;
+	}
+
+	&::before {
+		@apply top-[calc(var(--sc-out-radius-rt)*-1)];
+		@apply mask-position-[100%_100%];
+	}
+}
+
+@utility sc-out-rt-* {
+	--sc-out-radius-rt: --value([length]);
+	--sc-out-radius-rt: --value(--radius-*);
+
+	&::before {
+		@apply [background:inherit] bg-inherit mask-[var(--sc-out-mask)] mask-size-[var(--sc-out-mask-size)];
+		@apply content-[""] absolute w-[var(--sc-out-radius-rt)] aspect-1/1 block overflow-hidden pointer-events-none;
+		@apply left-auto right-0;
+	}
+
+	&::before {
+		@apply top-[calc(var(--sc-out-radius-rt)*-1)];
+		@apply mask-position-[100%_100%];
+	}
+}
+
+@utility sc-out-rb {
+	--sc-out-radius-rb: var(--sc-out-radius-base);
+
+	&::after {
+		@apply [background:inherit] bg-inherit mask-[var(--sc-out-mask)] mask-size-[var(--sc-out-mask-size)];
+		@apply content-[""] absolute w-[var(--sc-out-radius-rb)] aspect-1/1 block overflow-hidden pointer-events-none;
+		@apply left-auto right-0;
+	}
+
+	&::after {
+		@apply bottom-[calc(var(--sc-out-radius-rb)*-1)];
+		@apply mask-position-[100%_0%];
+	}
+}
+
+@utility sc-out-rb-* {
+	--sc-out-radius-rb: --value([length]);
+	--sc-out-radius-rb: --value(--radius-*);
+
+	&::after {
+		@apply [background:inherit] bg-inherit mask-[var(--sc-out-mask)] mask-size-[var(--sc-out-mask-size)];
+		@apply content-[""] absolute w-[var(--sc-out-radius-rb)] aspect-1/1 block overflow-hidden pointer-events-none;
+		@apply left-auto right-0;
+	}
+
+	&::after {
+		@apply bottom-[calc(var(--sc-out-radius-rb)*-1)];
+		@apply mask-position-[100%_0%];
+	}
+}
