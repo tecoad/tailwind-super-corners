@@ -27,6 +27,7 @@
     "README.md"
   ],
   "scripts": {
+    "dev": "tsup --watch",
     "build": "tsup && bun run scripts/copy-css.ts",
     "lint": "biome check .",
     "prepublishOnly": "bun run build",

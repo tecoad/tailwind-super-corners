@@ -106,7 +106,7 @@ export default plugin(({ addBase, matchUtilities, theme }) => {
 
 	addBase({
 		[PP]: {
-			"@container style(--_sc-active: 1) and not style(--_sc-parity)": {
+			"@container style(--_sc-active: 1) and (not style(--_sc-parity))": {
 				"--_sc-parity": "odd",
 				"--sc-odd": "calc(var(--sc-radius) - var(--sc-gap))",
 			},
