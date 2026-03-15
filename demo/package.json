@@ -5,7 +5,6 @@
   "scripts": {
     "predev": "bun run --cwd .. build",
     "dev": "vite",
-    "prebuild": "bun run --cwd .. build",
     "build": "vite build",
     "preview": "vite preview"
   },
