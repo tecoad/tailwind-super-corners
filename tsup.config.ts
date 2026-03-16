@@ -3,7 +3,7 @@ import { defineConfig } from "tsup"
 export default defineConfig([
 	// Plugin files (loaded via @plugin in CSS — no .d.ts needed)
 	{
-		entry: ["src/concentric.ts", "src/shape.ts"],
+		entry: ["src/concentric.ts", "src/shape.ts", "src/out.ts"],
 		format: ["esm"],
 		dts: false,
 		outDir: "dist",

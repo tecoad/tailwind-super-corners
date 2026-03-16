@@ -46,37 +46,14 @@ export default plugin(({ addBase, matchUtilities, theme }) => {
 	)
 
 	// ─── Publishers (padding/gap) ───────────────────────────
-	// Shadows core p-* to also set --sc-gap for propagation.
+	// Only shadows the `p` shorthand (not per-side like pt, pb) so
+	// per-side overrides (e.g. pb-0) don't clobber --sc-gap.
 
 	matchUtilities(
 		{
 			p: value => ({
 				"--sc-gap": value,
 				padding: value,
-			}),
-			px: value => ({
-				"--sc-gap": value,
-				"padding-inline": value,
-			}),
-			py: value => ({
-				"--sc-gap": value,
-				"padding-block": value,
-			}),
-			pt: value => ({
-				"--sc-gap": value,
-				"padding-top": value,
-			}),
-			pb: value => ({
-				"--sc-gap": value,
-				"padding-bottom": value,
-			}),
-			ps: value => ({
-				"--sc-gap": value,
-				"padding-inline-start": value,
-			}),
-			pe: value => ({
-				"--sc-gap": value,
-				"padding-inline-end": value,
 			}),
 		},
 		{ values: theme("spacing") }

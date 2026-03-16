@@ -1,7 +1,4 @@
-import { cpSync, readFileSync, writeFileSync } from "node:fs"
-
-// Copy out.css as-is
-cpSync("src/out.css", "dist/out.css")
+import { readFileSync, writeFileSync } from "node:fs"
 
 // Copy index.css with @plugin references updated from .ts → .js
 const css = readFileSync("src/index.css", "utf-8")

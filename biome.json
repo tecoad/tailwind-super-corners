@@ -1,34 +1,59 @@
 {
-	"$schema": "https://biomejs.dev/schemas/2.4.7/schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.2.4/schema.json",
 	"vcs": {
-		"enabled": true,
+		"enabled": false,
 		"clientKind": "git",
-		"useIgnoreFile": true
+		"useIgnoreFile": false
 	},
 	"files": {
-		"includes": ["**", "!!**/dist"]
+		"ignoreUnknown": false,
+		"includes": [
+			"**/src/**/*",
+			"**/.vscode/**/*",
+			"**/index.html",
+			"**/vite.config.ts",
+			"!**/src/routeTree.gen.ts",
+			"!**/src/utilities.css"
+		]
 	},
 	"formatter": {
 		"enabled": true,
+		"lineWidth": 100,
 		"indentStyle": "tab"
 	},
+	"assist": { "actions": { "source": { "organizeImports": "on" } } },
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true
+			"recommended": true,
+			"correctness": {
+				"noUnknownTypeSelector": "off",
+				"noUnusedVariables": "off",
+				"useExhaustiveDependencies": { "level": "error", "fix": "none" }
+			},
+			"a11y": {
+				"noSvgWithoutTitle": "off",
+				"noLabelWithoutControl": "off"
+			}
 		}
 	},
 	"javascript": {
 		"formatter": {
-			"quoteStyle": "double"
+			"arrowParentheses": "asNeeded",
+			"jsxQuoteStyle": "double",
+			"quoteStyle": "double",
+			"semicolons": "asNeeded",
+			"trailingCommas": "es5"
 		}
 	},
-	"assist": {
-		"enabled": true,
-		"actions": {
-			"source": {
-				"organizeImports": "on"
-			}
+	"css": {
+		"parser": {
+			"tailwindDirectives": true
+		}
+	},
+	"json": {
+		"formatter": {
+			"trailingCommas": "none"
 		}
 	}
 }
