@@ -1,11 +1,17 @@
-import { cn } from "@/utils"
 import { stagger, useAnimate, useInView } from "motion/react"
+import type { ReactNode } from "react"
 import { useEffect, useRef, useState } from "react"
+import { cn } from "@/lib/utils"
 
 interface FitHeadlineProps {
-	lines: string[]
+	children: ReactNode
 	className?: string
 	headlineClassName?: string
+}
+
+interface FitHeadlineLineProps {
+	children: ReactNode
+	className?: string
 }
 
 function calculateOptimalFontSize(container: HTMLElement) {
@@ -90,7 +96,7 @@ function calculateBaselinePositions(container: HTMLElement) {
 	})
 }
 
-export function FitHeadline({ lines, className, headlineClassName }: FitHeadlineProps) {
+function FitHeadlineRoot({ children, className, headlineClassName }: FitHeadlineProps) {
 	const isCalculating = useRef(false)
 	const [scope, animate] = useAnimate<HTMLDivElement>()
 	const isInView = useInView(scope, { once: true, amount: 1 })
@@ -122,14 +128,14 @@ export function FitHeadline({ lines, className, headlineClassName }: FitHeadline
 		})
 
 		return () => observer.disconnect()
-	}, [])
+	}, [scope])
 
 	useEffect(() => {
 		if (linePositions.length > 0 && isInView) {
 			animate(
 				"[data-typography-line]",
 				{ opacity: 1, transform: "translateY(0)", filter: "blur(0)" },
-				{ delay: stagger(0.05), type: "spring", bounce: 0.6, stiffness: 300 },
+				{ delay: stagger(0.05), type: "spring", bounce: 0.6, stiffness: 300 }
 			)
 		}
 	}, [linePositions, isInView, animate])
@@ -146,7 +152,7 @@ export function FitHeadline({ lines, className, headlineClassName }: FitHeadline
 					// biome-ignore lint/suspicious/noArrayIndexKey: static list
 					key={i}
 					data-typography-line
-					className="z-0 absolute h-px w-dvw bg-primary/90"
+					className="z-0 absolute h-px w-dvw bg-accent-7"
 					style={{
 						top: `${line.top}px`,
 						left: `-${line.left}px`,
@@ -158,24 +164,26 @@ export function FitHeadline({ lines, className, headlineClassName }: FitHeadline
 			))}
 
 			<h1
-				className={cn(headlineClassName)}
+				className={cn("z-1", headlineClassName)}
 				style={{
 					fontSize: "var(--fit-headline-size, 10cqw)",
 					fontKerning: "none",
 					fontFeatureSettings: "kern 0",
+					visibility: linePositions.length > 0 ? "visible" : "hidden",
 				}}
 			>
-				{lines.map((line, i) => (
-					<span
-						// biome-ignore lint/suspicious/noArrayIndexKey: static list
-						key={i}
-						data-fit-line
-						className="block w-fit whitespace-nowrap"
-					>
-						{line}
-					</span>
-				))}
+				{children}
 			</h1>
 		</div>
 	)
 }
+
+function Line({ children, className }: FitHeadlineLineProps) {
+	return (
+		<span data-fit-line className={cn("block w-fit whitespace-nowrap z-1", className)}>
+			{children}
+		</span>
+	)
+}
+
+export const FitHeadline = Object.assign(FitHeadlineRoot, { Line })
