@@ -1,5 +1,5 @@
 import { ImageResponse } from "@vercel/og"
-import { V1} from "../src/components/OgBg"
+import { V1 } from "../src/components/OgBg"
 
 export const config = { runtime: "edge" }
 
