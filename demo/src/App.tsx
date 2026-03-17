@@ -130,7 +130,7 @@ export default function App() {
 					{/* Headline */}
 					<div
 						className={cn(
-							"z-10 flex flex-col gap-8 mb-10 justify-end items-center flex-1",
+							"z-10 flex flex-col gap-8 md:gap-12 md:mb-16 mb-10 justify-end items-center flex-1",
 							PADDING_LAYOUT[paddingClass].px
 						)}
 					>
