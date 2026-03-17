@@ -90,9 +90,8 @@ function calculateBaselinePositions(container: HTMLElement) {
 		const fontHeight = metrics.ascent + metrics.descent
 		const baseline = lineCenter - fontHeight / 2 + metrics.ascent
 		const xHeight = baseline - metrics.xHeight
-		const leftOffset = containerRect.left
 
-		return { baseline, xHeight, leftOffset }
+		return { baseline, xHeight }
 	})
 }
 
@@ -101,7 +100,7 @@ function FitHeadlineRoot({ children, className, headlineClassName }: FitHeadline
 	const [scope, animate] = useAnimate<HTMLDivElement>()
 	const isInView = useInView(scope, { once: true, amount: 1 })
 	const [linePositions, setLinePositions] = useState<
-		Array<{ baseline: number; xHeight: number; leftOffset: number }>
+		Array<{ baseline: number; xHeight: number }>
 	>([])
 
 	useEffect(() => {
@@ -141,8 +140,8 @@ function FitHeadlineRoot({ children, className, headlineClassName }: FitHeadline
 	}, [linePositions, isInView, animate])
 
 	const allLines = linePositions.flatMap(pos => [
-		{ type: "xHeight" as const, top: pos.xHeight, left: pos.leftOffset },
-		{ type: "baseline" as const, top: pos.baseline, left: pos.leftOffset },
+		{ type: "xHeight" as const, top: pos.xHeight },
+		{ type: "baseline" as const, top: pos.baseline },
 	])
 
 	return (
@@ -155,7 +154,7 @@ function FitHeadlineRoot({ children, className, headlineClassName }: FitHeadline
 					className="z-0 absolute h-px w-dvw bg-accent-7"
 					style={{
 						top: `${line.top}px`,
-						left: `-${line.left}px`,
+						left: "calc(-50vw + 50%)",
 						opacity: 0,
 						transform: "translateY(-10px)",
 						filter: "blur(3px)",

@@ -3,11 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tailwind Super Corners — Demo</title>
+    <title>Tailwind super-corners</title>
 
-    <meta property="og:title" content="Tailwind Super Corners" />
+    <meta property="og:title" content="Tailwind super-corners" />
     <meta property="og:description" content="Primitives for squircles and iOS-style super-ellipse corners in Tailwind CSS." />
-    <meta property="og:image" content="https://super-corners.mattsilva.dev/api/og?title=Tailwind+Super+Corners" />
+    <meta property="og:image" content="https://super-corners.mattsilva.dev/api/og?title=tailwind-super-corners" />
     <meta property="og:url" content="https://super-corners.mattsilva.dev/" />
     <meta property="og:type" content="website" />
 
@@ -15,6 +15,14 @@
     <meta name="twitter:title" content="Tailwind Super Corners" />
     <meta name="twitter:description" content="Primitives for squircles and iOS-style super-ellipse corners in Tailwind CSS." />
     <meta name="twitter:image" content="https://super-corners.mattsilva.dev/api/og?title=Tailwind+Super+Corners" />
+    <script>
+      (function() {
+        var t = localStorage.getItem("theme");
+        if (t === "dark" || (!t && matchMedia("(prefers-color-scheme: dark)").matches)) {
+          document.documentElement.classList.add("dark");
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

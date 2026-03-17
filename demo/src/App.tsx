@@ -1,6 +1,11 @@
 import { IconGithub } from "nucleo-social-media"
-import { IconCheck3Outline18, IconDuplicate2Outline18 } from "nucleo-ui-outline-18"
+import {
+	IconCheck3Outline18,
+	IconDarkModeOutline18,
+	IconDuplicate2Outline18,
+} from "nucleo-ui-outline-18"
 import { useCallback, useRef, useState } from "react"
+import { version } from "tailwind-super-corners/package.json"
 import { Button } from "./components/button"
 import { FitHeadline } from "./components/fit-headline"
 import { InsetShadow } from "./components/inset-shadow"
@@ -11,6 +16,14 @@ import { StateTransition } from "./components/transitions/state-transition"
 import { cn } from "./lib/utils"
 
 const PADDING_OPTIONS = ["p-0", "p-1", "p-2", "p-3", "p-4", "p-5"]
+const PADDING_LAYOUT: Record<string, { px: string; left: string; right: string }> = {
+	"p-0": { px: "px-0", left: "left-0", right: "right-0" },
+	"p-1": { px: "px-1", left: "left-1", right: "right-1" },
+	"p-2": { px: "px-2", left: "left-2", right: "right-2" },
+	"p-3": { px: "px-3", left: "left-3", right: "right-3" },
+	"p-4": { px: "px-4", left: "left-4", right: "right-4" },
+	"p-5": { px: "px-5", left: "left-5", right: "right-5" },
+}
 const RADIUS_OPTIONS = [
 	"rounded-t-lg",
 	"rounded-t-xl",
@@ -37,11 +50,13 @@ const SHAPE_OPTIONS = [
 	"sc-round",
 	"sc-squircle",
 	"sc-smooth",
-	"sc-scoop",
+	// "sc-scoop",
+	// "sc-notch",
 	"sc-bevel",
-	"sc-notch",
 	"sc-square",
 ]
+
+const supportsCornerShape = CSS.supports("corner-shape", "round")
 
 const COPY_VALUE = "bun add tailwind-super-corners"
 
@@ -52,8 +67,16 @@ export default function App() {
 	const [shapeClass, setShapeClass] = useState("sc-round")
 	const [copied, setCopied] = useState(false)
 	const [skeletonKey, setSkeletonKey] = useState(0)
+	const [dark, setDark] = useState(() => document.documentElement.classList.contains("dark"))
 	const copyTimeoutRef = useRef<ReturnType<typeof setTimeout>>(null)
 	const h1Ref = useRef<HTMLHeadingElement>(null)
+
+	const toggleTheme = useCallback(() => {
+		const next = !document.documentElement.classList.contains("dark")
+		document.documentElement.classList.toggle("dark", next)
+		localStorage.setItem("theme", next ? "dark" : "light")
+		setDark(next)
+	}, [])
 
 	const handleCopy = useCallback(() => {
 		navigator.clipboard.writeText(COPY_VALUE)
@@ -64,8 +87,16 @@ export default function App() {
 	}, [])
 
 	return (
-		<div className="h-dvh w-dvw bg-base-3 flex flex-col pb-6">
-			<div className="absolute top-4 right-4 flex gap-2">
+		<div className="h-dvh w-dvw bg-base-3 flex flex-col pb-6 overflow-hidden">
+			<div
+				className={cn(
+					"absolute z-20 top-4 right-6 flex gap-2 md:p-0",
+					PADDING_LAYOUT[paddingClass].px
+				)}
+			>
+				<Button size="lg" rounded variant="ghost" className="text-base-a9" onClick={toggleTheme}>
+					<IconDarkModeOutline18 data-icon="inline-start" />
+				</Button>
 				<a
 					href="https://github.com/tecoad/tailwind-super-corners/blob/main/README.md"
 					target="_blank"
@@ -86,9 +117,23 @@ export default function App() {
 					</Button>
 				</a>
 			</div>
-			<div className="bg-base-1 px-4 flex-1 min-h-0 flex  border-b">
-				<div className="max-w-xl w-full border border-base-5 mx-auto flex-1 min-h-0 flex flex-col">
-					<div className="flex flex-col gap-8 mb-10 justify-end items-center flex-1">
+			<div className={cn("bg-base-1 flex-1 min-h-0 flex border-b px-6")}>
+				<div className="max-w-xl  w-full border-x relative border-base-5 mx-auto flex-1 min-h-0 flex flex-col">
+					<div
+						className={cn(
+							"pointer-events-none h-dvh border-dotted absolute z-2 border-x border-[base-3] -mx-px",
+							PADDING_LAYOUT[paddingClass].left,
+							PADDING_LAYOUT[paddingClass].right
+						)}
+					/>
+
+					{/* Headline */}
+					<div
+						className={cn(
+							"z-10 flex flex-col gap-8 mb-10 justify-end items-center flex-1",
+							PADDING_LAYOUT[paddingClass].px
+						)}
+					>
 						<FitHeadline headlineClassName="font-medium tracking-tighter leading-[1] mt-15">
 							<FitHeadline.Line>
 								<InsetShadow blur={1} offset={{ y: 1 }} color="var(--color-white-a5)">
@@ -98,7 +143,7 @@ export default function App() {
 											ref={h1Ref}
 											style={{ filter: `url(#${filterId})` }}
 										>
-											Tailwind
+											tailwind
 										</h1>
 									)}
 								</InsetShadow>
@@ -111,8 +156,10 @@ export default function App() {
 											ref={h1Ref}
 											style={{ filter: `url(#${filterId})` }}
 										>
-											Super Corners&nbsp;
-											<span className="text-sm tracking-normal text-base-9">v.1.1</span>
+											super-corners&nbsp;
+											<span className="text-sm tracking-normal font-semibold text-base-9">
+												v.{version}
+											</span>
 										</h1>
 									)}
 								</InsetShadow>
@@ -148,9 +195,10 @@ export default function App() {
 							)}
 						</button>
 					</div>
+					{/* Preview */}
 					<div
 						className={cn(
-							"-m-px  -mb-[2px] pb-0! relative  min-h-0 border border-b-0 bg-base-3   flex flex-col",
+							"-m-px  pb-0! relative  min-h-0 border border-b-0 bg-base-3   flex flex-col",
 							paddingClass,
 							radiusClass,
 							outClass,
@@ -186,13 +234,15 @@ export default function App() {
 										value={outClass}
 										onValueChange={setOutClass}
 									/>
-									<Slider
-										label="Corner Shape"
-										size="lg"
-										options={SHAPE_OPTIONS}
-										value={shapeClass}
-										onValueChange={setShapeClass}
-									/>
+									{supportsCornerShape && (
+										<Slider
+											label="Corner Shape"
+											size="lg"
+											options={SHAPE_OPTIONS}
+											value={shapeClass}
+											onValueChange={setShapeClass}
+										/>
+									)}
 								</div>
 							</ScrollArea>
 						</div>
