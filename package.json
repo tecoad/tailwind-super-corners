@@ -1,6 +1,6 @@
 {
   "name": "tailwind-super-corners",
-  "version": "1.3.0",
+  "version": "0.1.2",
   "description": "Tailwind CSS v4 plugin for concentric border-radius, outer corners, and corner shapes (squircle, superellipse, bevel, etc.)",
   "sideEffects": false,
   "workspaces": ["demo"],
