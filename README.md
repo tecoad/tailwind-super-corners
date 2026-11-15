@@ -34,32 +34,28 @@ This ensures `sc-concentric` classes conflict correctly with `rounded-*`, shape 
 
 ## 1. Concentric borders (`sc-concentric`)
 
-Automatically computes `inner_radius = outer_radius - gap` for nested elements. Supports unlimited nesting depth via CSS container style queries with even/odd parity toggle.
+Automatically computes `inner_radius = outer_radius - padding - border` for nested elements. Supports unlimited nesting depth via CSS container style queries with even/odd parity toggle.
 
 ### How it works
 
-1. **Parent** uses standard Tailwind `rounded-*` and `p-*` classes — the plugin shadows these to also set `--sc-radius` and `--sc-gap`.
+1. **Parent** uses standard Tailwind `rounded-*`, `p-*` and `border` classes — the plugin shadows these to also set `--sc-radius`, `--sc-gap` and `--sc-border`.
 2. **Child** uses `sc-concentric` to read the propagated values and apply the correct inner radius.
-3. Each nesting level accumulates the subtraction automatically.
+3. Each nesting level takes off its own padding and border width. A wrapper with neither (`flex gap-2`, a positioned `div`) takes nothing off, and the nearest `rounded-*` ancestor is the reference.
+4. Only uniform `p-*` and `border` / `border-{n}` count: a concentric curve needs the same gap on both sides of a corner, so `px-*`, `pt-*`, `border-t` and the like are ignored.
 
 ### Publisher classes (parent)
 
-These shadow core Tailwind utilities. You don't need special classes — just use normal `rounded-*` and `p-*`:
+These shadow core Tailwind utilities. You don't need special classes — just use normal `rounded-*`, `p-*` and `border`:
 
 | Class | Sets |
 |---|---|
-| `rounded-{token}` | `border-radius` + `--sc-radius` |
+| `rounded-{token}` | `border-radius` + `--sc-radius`; the element becomes the reference |
 | `rounded-t-{token}` | top corners + `--sc-radius` |
 | `rounded-r-{token}` | right corners + `--sc-radius` |
 | `rounded-b-{token}` | bottom corners + `--sc-radius` |
 | `rounded-l-{token}` | left corners + `--sc-radius` |
 | `p-{token}` | `padding` + `--sc-gap` |
-| `px-{token}` | `padding-inline` + `--sc-gap` |
-| `py-{token}` | `padding-block` + `--sc-gap` |
-| `pt-{token}` | `padding-top` + `--sc-gap` |
-| `pb-{token}` | `padding-bottom` + `--sc-gap` |
-| `ps-{token}` | `padding-inline-start` + `--sc-gap` |
-| `pe-{token}` | `padding-inline-end` + `--sc-gap` |
+| `border`, `border-{n}` | `border-width` + `--sc-border` |
 
 ### Consumer classes (child)
 
@@ -99,6 +95,21 @@ The `{token}` is any `borderRadius` theme value (e.g. `lg`, `xl`, `3xl`). When o
 <!-- If no parent propagates, falls back to rounded-lg -->
 <div class="sc-concentric-lg bg-white">...</div>
 ```
+
+### Minimum radius
+
+Deep nesting can take the radius down to zero. `sc-min-{token}` (or `--sc-min`) sets a floor for every `sc-concentric` inside it, never rounder than the reference it nests in:
+
+```html
+<div class="rounded-3xl p-3 sc-min-[4px]">
+  <div class="sc-concentric p-3">
+    <!-- 24 - 12 - 12 = 0, raised to 4px -->
+    <div class="sc-concentric">...</div>
+  </div>
+</div>
+```
+
+Set it once for a whole app with `:root { --sc-min: 4px; }`.
 
 ---
 
@@ -268,7 +279,9 @@ All three features compose together:
 | Variable | Set by | Description |
 |---|---|---|
 | `--sc-radius` | `rounded-*` publishers | Propagated border-radius value |
-| `--sc-gap` | `p-*` publishers | Propagated padding/gap value |
+| `--sc-gap` | `p-*` publishers | The element's own padding (registered, not inherited) |
+| `--sc-border` | `border` / `border-{n}` publishers | The element's own border width (registered, not inherited) |
+| `--sc-min` | `sc-min-*`, or set by you | Minimum concentric radius (default `0px`) |
 | `--sc-odd` / `--sc-even` | Parity system | Accumulated radius at each depth |
 | `--_sc-parity` | Parity system | Current parity (`odd` / `even`) |
 | `--_sc-active` | `rounded-*` publishers | Marks element as concentric root |

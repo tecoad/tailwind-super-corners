@@ -1,3 +1,18 @@
 @plugin "./concentric.ts";
 @plugin "./shape.ts";
 @plugin "./out.ts";
+
+/* A level's own padding and border width. Never inherited, so a wrapper with
+   no p-* or border width of its own (flex gap-2, a positioned div) takes
+   nothing off the concentric radius. */
+@property --sc-gap {
+	syntax: "<length>";
+	inherits: false;
+	initial-value: 0px;
+}
+
+@property --sc-border {
+	syntax: "<length>";
+	inherits: false;
+	initial-value: 0px;
+}

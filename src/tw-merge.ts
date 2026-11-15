@@ -35,6 +35,7 @@ export function withSuperCorners(config: Config<string, string>): Config<string,
 				"rounded-tr": ["sc-tr-concentric", { "sc-tr-concentric": [isAny] }],
 				"rounded-bl": ["sc-bl-concentric", { "sc-bl-concentric": [isAny] }],
 				"rounded-br": ["sc-br-concentric", { "sc-br-concentric": [isAny] }],
+				"sc-min": ["sc-min", { "sc-min": [isAny] }],
 
 				// ── Corner shape ──
 				"sc-shape": shape("sc"),
