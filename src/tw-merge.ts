@@ -36,6 +36,8 @@ export function withSuperCorners(config: Config<string, string>): Config<string,
 				"rounded-bl": ["sc-bl-concentric", { "sc-bl-concentric": [isAny] }],
 				"rounded-br": ["sc-br-concentric", { "sc-br-concentric": [isAny] }],
 				"sc-min": ["sc-min", { "sc-min": [isAny] }],
+				// sc-fit sets the padding, so it replaces p-* (and p-* replaces it)
+				p: [{ "sc-fit": [isAny] }],
 
 				// ── Corner shape ──
 				"sc-shape": shape("sc"),

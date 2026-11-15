@@ -7,11 +7,11 @@ const RP = ':is([class*="rounded-"])'
 // reference on such an element, as it always has.
 const PP =
 	':is([class*="p-"],[class*="px-"],[class*="py-"],[class*="pt-"],[class*="pb-"],[class*="ps-"],[class*="pe-"])'
-// May carry a p-* or a border width. The match is loose (gap-2 and
-// border-border match too), and that is harmless: --sc-gap and --sc-border are
-// registered as non-inherited in index.css, so an element without its own
-// p-* or border width takes nothing off.
-const STEP = ':is([class*="p-"],[class*="border"])'
+// May carry a p-*, an sc-fit-* or a border width. The match is loose (gap-2
+// and border-border match too), and that is harmless: --sc-gap and --sc-border
+// are registered as non-inherited in index.css, so an element without its own
+// gap or border width takes nothing off.
+const STEP = ':is([class*="p-"],[class*="sc-fit"],[class*="border"])'
 
 // What one level takes off the radius: its own padding and border width.
 const INSET = "var(--sc-gap) - var(--sc-border)"
@@ -25,6 +25,12 @@ const ROOT: CssInJs = {
 // Never below --sc-min, and never rounder than the reference it nests in.
 const withFloor = (accumulated: string) =>
 	`max(min(var(--sc-min, 0px), var(--sc-radius)), var(${accumulated}))`
+
+// Inside out: the gap that puts a pill's curve on the corner's center. The
+// radius left at this level, minus half the pill, minus this element's own
+// border; never below --sc-fit-min.
+const fitGap = (available: string, pill: string) =>
+	`max(var(--sc-fit-min, 0.25rem), calc(${available} - ${pill} / 2 - var(--sc-border)))`
 
 export default plugin(({ addBase, matchUtilities, theme }) => {
 	// ─── Publishers (radius) ────────────────────────────────
@@ -103,6 +109,30 @@ export default plugin(({ addBase, matchUtilities, theme }) => {
 			}),
 		},
 		{ values: theme("borderRadius"), type: ["length"] }
+	)
+
+	// ─── Inside out (sc-fit) ────────────────────────────────
+	// sc-fit-{h} goes on the element whose padding holds pills of height h.
+	// On a rounded-* element the corner is its own radius; deeper in, it is the
+	// radius left at the parent's level. The gap also publishes as --sc-gap,
+	// so blocks inside still nest concentrically.
+
+	matchUtilities(
+		{
+			"sc-fit": value => {
+				const gap = (available: string) => ({
+					padding: fitGap(available, value),
+					"--sc-gap": fitGap(available, value),
+				})
+				return {
+					...gap("var(--sc-radius, 0px)"),
+					"@container style(--_sc-parity: odd)": gap("var(--sc-odd)"),
+					"@container style(--_sc-parity: even)": gap("var(--sc-even)"),
+					[`&${RP}`]: gap("var(--sc-radius)"),
+				}
+			},
+		},
+		{ values: theme("spacing"), type: ["length"] }
 	)
 
 	// ─── Consumer variant map ───────────────────────────────

@@ -111,6 +111,25 @@ Deep nesting can take the radius down to zero. `sc-min-{token}` (or `--sc-min`) 
 
 Set it once for a whole app with `:root { --sc-min: 4px; }`.
 
+### Inside out (`sc-fit`)
+
+A pill's radius is always half its height, so a pill in a corner can't follow the corner. The gap around it can. `sc-fit-{h}` goes on the element whose padding holds pills of height `h`, and sets that padding to the radius left at the corner minus half the pill:
+
+```html
+<!-- 24 - 18 - border 1 = 5px: the 36px tabs share the card's corner center -->
+<div class="rounded-3xl border sc-fit-9">
+  <div class="flex">
+    <button class="h-9 rounded-full px-3">Preview</button>
+    <button class="h-9 rounded-full px-3">Code</button>
+  </div>
+</div>
+```
+
+- `{h}` is any spacing token (`sc-fit-9` = 36px, `sc-fit-7` = 28px) or a length (`sc-fit-[40px]`).
+- On a `rounded-*` element the corner is its own radius. On a bar inside a rounded surface (a header, a toolbar), it's the radius left at that level, so the class works there too.
+- The gap never drops below `--sc-fit-min` (default `0.25rem`): a pill rounder than the corner can't sit on its center.
+- The gap publishes like a `p-*`, so `sc-concentric` blocks inside still nest. With `tailwind-merge`, `sc-fit-*` and `p-*` replace each other.
+
 ---
 
 ## 2. Outer corners (`sc-out`)
@@ -282,6 +301,7 @@ All three features compose together:
 | `--sc-gap` | `p-*` publishers | The element's own padding (registered, not inherited) |
 | `--sc-border` | `border` / `border-{n}` publishers | The element's own border width (registered, not inherited) |
 | `--sc-min` | `sc-min-*`, or set by you | Minimum concentric radius (default `0px`) |
+| `--sc-fit-min` | Set by you | Smallest gap `sc-fit-*` leaves around a pill (default `0.25rem`) |
 | `--sc-odd` / `--sc-even` | Parity system | Accumulated radius at each depth |
 | `--_sc-parity` | Parity system | Current parity (`odd` / `even`) |
 | `--_sc-active` | `rounded-*` publishers | Marks element as concentric root |
