@@ -22,6 +22,23 @@ const ROOT: CssInJs = {
 	"--sc-odd": `calc(var(--sc-radius) - ${INSET})`,
 }
 
+function propsToDecls(props: string[], value: string): CssInJs {
+	const decls: CssInJs = {}
+	for (const p of props) decls[p] = value
+	return decls
+}
+
+// A rounded-* publisher. A CSS-wide keyword (rounded-[inherit], …) names no
+// radius of its own: the element styles its corners and stays transparent to
+// the chain instead of restarting it from an inherited --sc-radius.
+const CSS_WIDE = new Set(["inherit", "initial", "unset", "revert", "revert-layer"])
+const radius =
+	(props: string[], root: CssInJs = {}) =>
+	(value: string): CssInJs =>
+		CSS_WIDE.has(value)
+			? propsToDecls(props, value)
+			: { "--_sc-active": "1", "--sc-radius": value, ...propsToDecls(props, value), ...root }
+
 // Never below --sc-min, and never rounder than the reference it nests in.
 const withFloor = (accumulated: string) =>
 	`max(min(var(--sc-min, 0px), var(--sc-radius)), var(${accumulated}))`
@@ -39,36 +56,11 @@ export default plugin(({ addBase, matchUtilities, theme }) => {
 
 	matchUtilities(
 		{
-			rounded: value => ({
-				"--_sc-active": "1",
-				"--sc-radius": value,
-				"border-radius": value,
-				...ROOT,
-			}),
-			"rounded-t": value => ({
-				"--_sc-active": "1",
-				"--sc-radius": value,
-				"border-top-left-radius": value,
-				"border-top-right-radius": value,
-			}),
-			"rounded-r": value => ({
-				"--_sc-active": "1",
-				"--sc-radius": value,
-				"border-top-right-radius": value,
-				"border-bottom-right-radius": value,
-			}),
-			"rounded-b": value => ({
-				"--_sc-active": "1",
-				"--sc-radius": value,
-				"border-bottom-right-radius": value,
-				"border-bottom-left-radius": value,
-			}),
-			"rounded-l": value => ({
-				"--_sc-active": "1",
-				"--sc-radius": value,
-				"border-top-left-radius": value,
-				"border-bottom-left-radius": value,
-			}),
+			rounded: radius(["border-radius"], ROOT),
+			"rounded-t": radius(["border-top-left-radius", "border-top-right-radius"]),
+			"rounded-r": radius(["border-top-right-radius", "border-bottom-right-radius"]),
+			"rounded-b": radius(["border-bottom-right-radius", "border-bottom-left-radius"]),
+			"rounded-l": radius(["border-top-left-radius", "border-bottom-left-radius"]),
 		},
 		{ values: theme("borderRadius") }
 	)
@@ -147,12 +139,6 @@ export default plugin(({ addBase, matchUtilities, theme }) => {
 		"sc-tr-concentric": ["border-top-right-radius"],
 		"sc-bl-concentric": ["border-bottom-left-radius"],
 		"sc-br-concentric": ["border-bottom-right-radius"],
-	}
-
-	function propsToDecls(props: string[], value: string): CssInJs {
-		const decls: CssInJs = {}
-		for (const p of props) decls[p] = value
-		return decls
 	}
 
 	// ─── Accumulation via container style queries ───────────

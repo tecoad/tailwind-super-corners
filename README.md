@@ -40,7 +40,7 @@ Automatically computes `inner_radius = outer_radius - padding - border` for nest
 
 1. **Parent** uses standard Tailwind `rounded-*`, `p-*` and `border` classes — the plugin shadows these to also set `--sc-radius`, `--sc-gap` and `--sc-border`.
 2. **Child** uses `sc-concentric` to read the propagated values and apply the correct inner radius.
-3. Each nesting level takes off its own padding and border width. A wrapper with neither (`flex gap-2`, a positioned `div`) takes nothing off, and the nearest `rounded-*` ancestor is the reference.
+3. Each nesting level takes off its own padding and border width. A wrapper with neither (`flex gap-2`, a positioned `div`, a `rounded-[inherit]` scroll viewport) takes nothing off, and the nearest `rounded-*` ancestor is the reference.
 4. Only uniform `p-*` and `border` / `border-{n}` count: a concentric curve needs the same gap on both sides of a corner, so `px-*`, `pt-*`, `border-t` and the like are ignored.
 
 ### Publisher classes (parent)
